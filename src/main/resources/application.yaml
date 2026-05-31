@@ -4,15 +4,35 @@ server:
 spring:
   application:
     name: api-gateway
+
   cloud:
     gateway:
       routes:
         - id: flow-manager-route
           uri: lb://Flow_manager
           predicates:
-            - Path=api/v1/flow_manager/**
+            - Path=/api/v1/flow_manager/**
           filters:
             - name: Retry
               args:
                 retries: 2
                 statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+            - TokenRelay=
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: api-gateway
+            client-secret: l01BnJGznTznIubLBFyCUiK9P3yguMhF
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+            scope: openid,profile,roles
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8085/realms/api-gateway-realm
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/api-gateway-realm
