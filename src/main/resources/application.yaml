@@ -18,6 +18,7 @@ spring:
                 retries: 2
                 statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
             - TokenRelay=
+            - RemoveRequestHeader=X-User-Login
 
   security:
     oauth2:

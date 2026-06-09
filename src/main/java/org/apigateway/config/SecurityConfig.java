@@ -38,10 +38,6 @@ public class SecurityConfig {
                 .build();
     }
 
-    /**
-     * ✅ Исправленный конвертер для Spring Security 6 WebFlux
-     * Возвращает Mono<AbstractAuthenticationToken>, как ожидает фреймворк
-     */
     @Bean
     public Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter() {
         return jwt -> {
